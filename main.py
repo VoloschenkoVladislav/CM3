@@ -4,7 +4,19 @@ from xi_sq import xi_sq
 
 NUM_OF_INTERVALS = 100
 SMALL_SEQUENCE_LENGTH = 40
-BIG_SEQUENCE_LENGTH = 40
+BIG_SEQUENCE_LENGTH = 100
+
+def writeSequence(fileName, sequence):
+    f = open(fileName, 'w')
+    f.write(str(sequence))
+    f.close()
+
+def writeAnalisys(fileName, analysis):
+    f = open(fileName, 'w')
+    f.write('Calculated statistics: {}\n'.format(analysis['calculated']))
+    f.write('The achieved level of significance: {}\n'.format(analysis['theorethical']))
+    f.write('The hypothesis of the agreement of the distribution: {}\n'.format(analysis['valid']))
+    f.close()
 
 #чтение данных
 data = read_data('./data.txt')
@@ -37,29 +49,15 @@ for params, sFile, aFile in zip(sp, sequenceFiles, analisysFiles):
     smallSequence = SNBRandGenerator(s, p, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
     bigSequence = SNBRandGenerator(s, p, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
 
-    fileSmallSequence = open(fileSmallSequence, 'w')
-    fileSmallSequence.write(str(smallSequence))
-    fileSmallSequence.close()
-
-    fileBigSequence = open(fileBigSequence, 'w')
-    fileBigSequence.write(str(bigSequence))
-    fileBigSequence.close()
+    writeSequence(fileSmallSequence, smallSequence)
+    writeSequence(fileBigSequence, bigSequence)
 
     #проверка данных на соответствие хи-квадрат гипотезе
     smallResult = xi_sq(smallSequence, SMALL_SEQUENCE_LENGTH, SNBSequence)
     bigResult = xi_sq(bigSequence, BIG_SEQUENCE_LENGTH, SNBSequence)
 
-    fileSmallAnalisys = open(fileSmallAnalisys, 'w')
-    fileSmallAnalisys.write('Вычисленная статистика: {}\n'.format(smallResult['calculated']))
-    fileSmallAnalisys.write('Достигнутый уровень значимости: {}\n'.format(smallResult['theorethical']))
-    fileSmallAnalisys.write('Гипотеза о согласии распределения: {}\n'.format(smallResult['valid']))
-    fileSmallAnalisys.close()
-
-    fileBigAnalisys = open(fileBigAnalisys, 'w')
-    fileBigAnalisys.write('Вычисленная статистика: {}\n'.format(bigResult['calculated']))
-    fileBigAnalisys.write('Достигнутый уровень значимости: {}\n'.format(bigResult['theorethical']))
-    fileBigAnalisys.write('Гипотеза о согласии распределения: {}\n'.format(bigResult['valid']))
-    fileBigAnalisys.close()
+    writeAnalisys(fileSmallAnalisys, smallResult)
+    writeAnalisys(fileBigAnalisys, bigResult)
 
 
 #генерация последовательностей длиной 40 и 100 на основе генератора Пуассона
@@ -67,26 +65,12 @@ poissonSequence = poisson(h, range(NUM_OF_INTERVALS))
 smallSequence = unstandartPuasson(h, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
 bigSequence = unstandartPuasson(h, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
 
-fileSmallSequence = open('poisson-sequence-40.txt', 'w')
-fileSmallSequence.write(str(smallSequence))
-fileSmallSequence.close()
-
-fileBigSequence = open('poisson-sequence-100.txt', 'w')
-fileBigSequence.write(str(bigSequence))
-fileBigSequence.close()
+writeSequence(fileSmallSequence, smallSequence)
+writeSequence(fileBigSequence, bigSequence)
 
 #проверка данных на соответствие хи-квадрат гипотезе
 smallResult = xi_sq(smallSequence, SMALL_SEQUENCE_LENGTH, poissonSequence)
 bigResult = xi_sq(bigSequence, BIG_SEQUENCE_LENGTH, poissonSequence)
 
-fileSmallAnalisys = open('poisson-analisys-40.txt', 'w')
-fileSmallAnalisys.write('Вычисленная статистика: {}\n'.format(smallResult['calculated']))
-fileSmallAnalisys.write('Достигнутый уровень значимости: {}\n'.format(smallResult['theorethical']))
-fileSmallAnalisys.write('Гипотеза о согласии распределения: {}\n'.format(smallResult['valid']))
-fileSmallAnalisys.close()
-
-fileBigAnalisys = open('poisson-analisys-100.txt', 'w')
-fileBigAnalisys.write('Вычисленная статистика: {}\n'.format(bigResult['calculated']))
-fileBigAnalisys.write('Достигнутый уровень значимости: {}\n'.format(bigResult['theorethical']))
-fileBigAnalisys.write('Гипотеза о согласии распределения: {}\n'.format(bigResult['valid']))
-fileBigAnalisys.close()
+writeAnalisys(fileSmallAnalisys, smallResult)
+writeAnalisys(fileBigAnalisys, bigResult)
