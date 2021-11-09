@@ -32,3 +32,4 @@ def write_data(file, content):
     f.write("\n")
     
     f.close()
+    

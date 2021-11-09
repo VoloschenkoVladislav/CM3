@@ -5,14 +5,15 @@ from xi_sq import xi_sq
 NUM_OF_INTERVALS = 100
 SMALL_SEQUENCE_LENGTH = 40
 BIG_SEQUENCE_LENGTH = 100
+WORK_DIR = './results/'
 
 def writeSequence(fileName, sequence):
-    f = open(fileName, 'w')
+    f = open(WORK_DIR + fileName, 'w')
     f.write(str(sequence))
     f.close()
 
 def writeAnalisys(fileName, analysis):
-    f = open(fileName, 'w')
+    f = open(WORK_DIR + fileName, 'w')
     f.write('Calculated statistics: {}\n'.format(analysis['calculated']))
     f.write('The achieved level of significance: {}\n'.format(analysis['theorethical']))
     f.write('The hypothesis of the agreement of the distribution: {}\n'.format(analysis['valid']))
@@ -59,6 +60,12 @@ for params, sFile, aFile in zip(sp, sequenceFiles, analisysFiles):
     writeAnalisys(fileSmallAnalisys, smallResult)
     writeAnalisys(fileBigAnalisys, bigResult)
 
+fileSmallSequence, fileBigSequence, fileSmallAnalisys, fileBigAnalisys = (
+                                                                          'poisson-sequence-40.txt',
+                                                                          'poisson-sequence-100.txt',
+                                                                          'poisson-analisys-40.txt',
+                                                                          'poisson-analisys-100.txt',
+                                                                         )
 
 #генерация последовательностей длиной 40 и 100 на основе генератора Пуассона
 poissonSequence = poisson(h, range(NUM_OF_INTERVALS))
