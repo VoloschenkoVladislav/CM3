@@ -4,11 +4,11 @@ from math import factorial, trunc, exp
 def C(m, n):
     return factorial(n)/( factorial(m)*factorial(n - m) )
 
-def SNB(s, p, sequence):
-    return [C(k, s+k-1) * p**s * (1-p)**k for k in sequence]
+def SNB(x, s, p):
+    return C(x, s+x-1) * p**s * (1-p)**x
     
-def poisson(h, sequence):
-    return [h**k * exp(-h) / factorial(k) for k in sequence]
+def poisson(x, h):
+    return h**x * exp(-h) / factorial(x)
 
 def SNBRandGenerator(s, p, length, quality=100):
     '''
@@ -27,7 +27,7 @@ def SNBRandGenerator(s, p, length, quality=100):
             количество интервалов деления отрезка [0, 1] (по умолчанию =100)
     '''
 
-    P = SNB(s, p, range(quality))
+    P = [SNB(x, s, p) for x in range(quality)]
     out = []
     for i in range(length):
         r = random()
@@ -54,26 +54,26 @@ def unstandartPuasson(h, length, quality=100):
             количество интервалов деления отрезка [0, 1] (по умолчанию =100)
     '''
 
-    E = list(range(quality))
-    P = poisson(h, E)
     out = []
+    E = list(range(quality))
+    # P = [poisson(x, h) for x in range(quality)]
     L = trunc(h)
-    Q = sum(P[:L])
+    Q = sum([poisson(x, h) for x in range(L)])
 
     for i in range(length):
         r = random()
         r0 = r - Q
         if r0 >= 0:
-            for ind, elem in enumerate(P[L:]):
-                r0 = r0 - elem
+            for elem in E[L:]:
+                r0 -= poisson(elem, h)
                 if r0 < 0:
-                    out.append(E[ind + L])
+                    out.append(elem)
                     break
         else:
-            for ind, elem in enumerate(P[:L-1:-1]):              
-                r0 = r0 + elem
+            for elem in E[:L-1:-1]:              
+                r0 += poisson(elem, h)
                 if r0 >= 0:
-                    out.append(E[L - ind - 1])
+                    out.append(elem)
                     break
     
     return out

@@ -46,7 +46,7 @@ for params, sFile, aFile in zip(sp, sequenceFiles, analisysFiles):
     fileBigAnalisys, fileSmallAnalisys = aFile
 
     #генерация последовательностей длиной 40 и 100 на основе биноминального генератора
-    SNBSequence = SNB(s, p, range(NUM_OF_INTERVALS))
+    SNBSequence = [SNB(x, s, p,) for x in range(NUM_OF_INTERVALS)]
     smallSequence = SNBRandGenerator(s, p, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
     bigSequence = SNBRandGenerator(s, p, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
 
@@ -68,7 +68,7 @@ fileSmallSequence, fileBigSequence, fileSmallAnalisys, fileBigAnalisys = (
                                                                          )
 
 #генерация последовательностей длиной 40 и 100 на основе генератора Пуассона
-poissonSequence = poisson(h, range(NUM_OF_INTERVALS))
+poissonSequence = [poisson(x, h) for x in range(NUM_OF_INTERVALS)]
 smallSequence = unstandartPuasson(h, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
 bigSequence = unstandartPuasson(h, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
 
