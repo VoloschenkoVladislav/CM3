@@ -27,17 +27,20 @@ def SNBRandGenerator(s, p, length, quality=100):
             количество интервалов деления отрезка [0, 1] (по умолчанию =100)
     '''
 
-    P = [SNB(x, s, p) for x in range(quality)]
     out = []
+    counter = 0
+    P = [SNB(x, s, p) for x in range(quality)]
+
     for i in range(length):
         r = random()
         for ind, elem in enumerate(P):
             r = r - elem
+            counter += 1
             if r < 0:
                 out.append(ind)
                 break
 
-    return out
+    return out, counter
 
 def unstandartPuasson(h, length, quality=100):
     '''
@@ -55,8 +58,8 @@ def unstandartPuasson(h, length, quality=100):
     '''
 
     out = []
+    counter = 0
     E = list(range(quality))
-    # P = [poisson(x, h) for x in range(quality)]
     L = trunc(h)
     Q = sum([poisson(x, h) for x in range(L)])
 
@@ -66,14 +69,16 @@ def unstandartPuasson(h, length, quality=100):
         if r0 >= 0:
             for elem in E[L:]:
                 r0 -= poisson(elem, h)
+                counter += 1
                 if r0 < 0:
                     out.append(elem)
                     break
         else:
             for elem in E[:L-1:-1]:              
                 r0 += poisson(elem, h)
+                counter += 1
                 if r0 >= 0:
                     out.append(elem)
                     break
     
-    return out
+    return out, counter

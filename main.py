@@ -47,8 +47,8 @@ for params, sFile, aFile in zip(sp, sequenceFiles, analisysFiles):
 
     #генерация последовательностей длиной 40 и 100 на основе биноминального генератора
     SNBSequence = [SNB(x, s, p,) for x in range(NUM_OF_INTERVALS)]
-    smallSequence = SNBRandGenerator(s, p, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
-    bigSequence = SNBRandGenerator(s, p, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
+    smallSequence, _ = SNBRandGenerator(s, p, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
+    bigSequence, _ = SNBRandGenerator(s, p, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
 
     writeSequence(fileSmallSequence, smallSequence)
     writeSequence(fileBigSequence, bigSequence)
@@ -69,8 +69,8 @@ fileSmallSequence, fileBigSequence, fileSmallAnalisys, fileBigAnalisys = (
 
 #генерация последовательностей длиной 40 и 100 на основе генератора Пуассона
 poissonSequence = [poisson(x, h) for x in range(NUM_OF_INTERVALS)]
-smallSequence = unstandartPuasson(h, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
-bigSequence = unstandartPuasson(h, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
+smallSequence, _ = unstandartPuasson(h, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
+bigSequence, _ = unstandartPuasson(h, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
 
 writeSequence(fileSmallSequence, smallSequence)
 writeSequence(fileBigSequence, bigSequence)
