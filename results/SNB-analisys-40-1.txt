@@ -1,3 +1,0 @@
-Calculated statistics: 0.9923
-The achieved level of significance: 0.05
-The hypothesis of the agreement of the distribution: True
