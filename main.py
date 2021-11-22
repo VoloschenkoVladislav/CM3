@@ -42,14 +42,16 @@ analisysFiles = [
 
 for params, sFile, aFile in zip(sp, sequenceFiles, analisysFiles):
     s, p = params
-    fileBigSequence, fileSmallSequence = sFile
-    fileBigAnalisys, fileSmallAnalisys = aFile
+    fileSmallSequence, fileBigSequence = sFile
+    fileSmallAnalisys, fileBigAnalisys = aFile
 
     #генерация последовательностей длиной 40 и 100 на основе биноминального генератора
     SNBSequence = [SNB(x, s, p,) for x in range(NUM_OF_INTERVALS)]
-    smallSequence, _ = SNBRandGenerator(s, p, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
-    bigSequence, _ = SNBRandGenerator(s, p, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
-
+    smallSequence, smallCount = SNBRandGenerator(s, p, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
+    print("Efficiency of SNB (s="+str(s)+", p="+str(p)+", n=40): "+str(smallCount))
+    bigSequence, bigCount = SNBRandGenerator(s, p, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
+    print("Efficiency of SNB (s="+str(s)+", p="+str(p)+", n=100): "+str(bigCount))
+    
     writeSequence(fileSmallSequence, smallSequence)
     writeSequence(fileBigSequence, bigSequence)
 
@@ -69,8 +71,12 @@ fileSmallSequence, fileBigSequence, fileSmallAnalisys, fileBigAnalisys = (
 
 #генерация последовательностей длиной 40 и 100 на основе генератора Пуассона
 poissonSequence = [poisson(x, h) for x in range(NUM_OF_INTERVALS)]
-smallSequence, _ = unstandartPuasson(h, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
-bigSequence, _ = unstandartPuasson(h, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
+smallSequence, smallCount = unstandartPuasson(h, SMALL_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
+print("Sequence (n=40): "+str(smallSequence))
+print("Efficiency of Poisson (n=40): "+str(smallCount))
+bigSequence, bigCount = unstandartPuasson(h, BIG_SEQUENCE_LENGTH, NUM_OF_INTERVALS)
+print("Sequence (n=100): "+str(bigSequence))
+print("Efficiency of Poisson (n=100): "+str(bigCount))
 
 writeSequence(fileSmallSequence, smallSequence)
 writeSequence(fileBigSequence, bigSequence)
